@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解 1.两数之和</title>
+      <link href="/2021/08/31/leetcode1/"/>
+      <url>/2021/08/31/leetcode1/</url>
+      
+        <content type="html"><![CDATA[<p>今天得到高人指点迷津。故从今天开始刷题，先来第一题体验一下。</p><h2 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h2><p>1.两数之和</p><p>难度 简单</p><p><a href="https://leetcode-cn.com/problems/two-sum/">https://leetcode-cn.com/problems/two-sum/</a></p><h2 id="my-answer"><a href="#my-answer" class="headerlink" title="my answer"></a>my answer</h2><h3 id="暴力"><a href="#暴力" class="headerlink" title="暴力"></a>暴力</h3><p>两个for搞定，时间复杂度O（n^2)，空间复杂度O（1）。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a,b;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; tmp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i  = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; nums.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    a = i;</span><br><span class="line">                    b = j;</span><br><span class="line">                    tmp.<span class="built_in">push_back</span>(a);</span><br><span class="line">                    tmp.<span class="built_in">push_back</span>(b);</span><br><span class="line">                    <span class="keyword">return</span> tmp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="better-solution"><a href="#better-solution" class="headerlink" title="better solution"></a>better solution</h2><h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>空间换时间，对于每一个 <code>x</code>，首先查询哈希表中是否存在 <code>target - x</code>，然后将 <code>x</code> 插入到哈希表中。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">twoSum</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; hashtable;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">auto</span> it = hashtable.<span class="built_in">find</span>(target - nums[i]);</span><br><span class="line">            <span class="keyword">if</span> (it != hashtable.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;it-&gt;second, i&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            hashtable[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>时间复杂度O（n)，空间复杂度O（n）。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>热手题目，太久没写，哈希表都没想出来。牢记：<strong>空间换时间，查询可以通过哈希表来降低复杂度，解题时多注意数据结构的设计</strong>。另外发现自己对STL了解不多，得多学习熟悉一下加快打码速度，毕竟写了快两年C，CPP快忘光了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>暑假小结</title>
       <link href="/2021/08/29/vacation/"/>
       <url>/2021/08/29/vacation/</url>
