@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>leetcode5</title>
+      <link href="/2021/09/02/leetcode5/"/>
+      <url>/2021/09/02/leetcode5/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><h4 id="剑指-Offer-06-从尾到头打印链表"><a href="#剑指-Offer-06-从尾到头打印链表" class="headerlink" title="剑指 Offer 06. 从尾到头打印链表"></a><a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表</a></h4><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>递归反转链表，然后从末尾往前遍历。时间复杂度O(n)，空间复杂度O(n)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reverseNext</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!head-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(head-&gt;next-&gt;next) &#123;</span><br><span class="line">            <span class="built_in">reverseNext</span>(head-&gt;next);</span><br><span class="line">        &#125;</span><br><span class="line">        head-&gt;next-&gt;next = head;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">reversePrint</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!head) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* tmp = head;</span><br><span class="line">        <span class="keyword">while</span>(tmp-&gt;next) &#123;</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">reverseNext</span>(head);</span><br><span class="line">        head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">        <span class="keyword">while</span>(tmp-&gt;next) &#123;</span><br><span class="line">            a.<span class="built_in">push_back</span>(tmp-&gt;val);</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        a.<span class="built_in">push_back</span>(tmp-&gt;val);</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>调用reverse、栈、递归push_back、迭代反转链表四种。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">reversePrint</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//方法1：reverse反转法</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        while(head)&#123;</span></span><br><span class="line"><span class="comment">            res.push_back(head-&gt;val);</span></span><br><span class="line"><span class="comment">            head = head-&gt;next;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        //使用algorithm算法中的reverse反转res</span></span><br><span class="line"><span class="comment">        reverse(res.begin(),res.end());</span></span><br><span class="line"><span class="comment">        return res;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//方法2：入栈法</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        stack&lt;int&gt; s;</span></span><br><span class="line"><span class="comment">        //入栈</span></span><br><span class="line"><span class="comment">        while(head)&#123;</span></span><br><span class="line"><span class="comment">            s.push(head-&gt;val);</span></span><br><span class="line"><span class="comment">            head = head-&gt;next;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        //出栈</span></span><br><span class="line"><span class="comment">        while(!s.empty())&#123;</span></span><br><span class="line"><span class="comment">            res.push_back(s.top());</span></span><br><span class="line"><span class="comment">            s.pop();</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        return res;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//方法3：递归</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        if(head == nullptr)</span></span><br><span class="line"><span class="comment">            return res;</span></span><br><span class="line"><span class="comment">        reversePrint(head-&gt;next);</span></span><br><span class="line"><span class="comment">        res.push_back(head-&gt;val);</span></span><br><span class="line"><span class="comment">        return res;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//方法4：改变链表结构</span></span><br><span class="line">        ListNode *pre = <span class="literal">nullptr</span>;</span><br><span class="line">        ListNode *next = head;</span><br><span class="line">        ListNode *cur = head;</span><br><span class="line">        <span class="keyword">while</span>(cur)&#123;</span><br><span class="line">            next = cur-&gt;next;<span class="comment">//保存当前结点的下一个节点</span></span><br><span class="line">            cur-&gt;next = pre;<span class="comment">//当前结点指向前一个节点，反向改变指针</span></span><br><span class="line">            pre = cur;<span class="comment">//更新前一个节点</span></span><br><span class="line">            cur = next;<span class="comment">//更新当前结点</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(pre)&#123;<span class="comment">//上一个while循环结束后，pre指向新的链表头</span></span><br><span class="line">            res.<span class="built_in">push_back</span>(pre-&gt;val);</span><br><span class="line">            pre = pre-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p><strong>FILO注意栈的使用，与递归有相似之处；可调用reverse反转数组。</strong>迭代和递归反转链表稍微改一下就能用于<a href="https://leetcode-cn.com/problems/reverse-linked-list/">Leetcode 206. 反转链表</a>、<a href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/">剑指 Offer 24. 反转链表</a>、<a href="https://leetcode-cn.com/problems/UHnkqh/">剑指 Offer II 024. 反转链表</a>。</p><h3 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* prev = <span class="literal">nullptr</span>;</span><br><span class="line">        ListNode* curr = head;</span><br><span class="line">        <span class="keyword">while</span> (curr) &#123;</span><br><span class="line">            ListNode* next = curr-&gt;next;</span><br><span class="line">            curr-&gt;next = prev;</span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!head || !head-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* newHead = <span class="built_in">reverseList</span>(head-&gt;next);</span><br><span class="line">        head-&gt;next-&gt;next = head;</span><br><span class="line">        head-&gt;next = <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">return</span> newHead;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>leetcode4</title>
+      <link href="/2021/09/02/leetcode4/"/>
+      <url>/2021/09/02/leetcode4/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><h4 id="剑指-Offer-05-替换空格"><a href="#剑指-Offer-05-替换空格" class="headerlink" title="剑指 Offer 05. 替换空格"></a><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></h4><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>调用string库函数replace来进行替换。时间复杂度、空间复杂度因不知道库函数实现无法计算，按评测结果来看应该是O(n)和O(1).</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">replaceSpace</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">                s = s.<span class="built_in">replace</span>(i, <span class="number">1</span>, <span class="string">&quot;%20&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>不调用库函数就老老实实按字符处理。首先统计空格数量，然后调用resize修改s长度，从末尾开始往前进行原地修改。时间复杂度O(n)，空间复杂度O(1).</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">replaceSpace</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>, len = s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">// 统计空格数量</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> c : s) &#123;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27; &#x27;</span>) count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 修改 s 长度</span></span><br><span class="line">        s.<span class="built_in">resize</span>(len + <span class="number">2</span> * count);</span><br><span class="line">        <span class="comment">// 倒序遍历修改</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = len - <span class="number">1</span>, j = s.<span class="built_in">size</span>() - <span class="number">1</span>; i &lt; j; i--, j--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] != <span class="string">&#x27; &#x27;</span>)</span><br><span class="line">                s[j] = s[i];</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                s[j - <span class="number">2</span>] = <span class="string">&#x27;%&#x27;</span>;</span><br><span class="line">                s[j - <span class="number">1</span>] = <span class="string">&#x27;2&#x27;</span>;</span><br><span class="line">                s[j] = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                j -= <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>主要学习的是string库函数的调用：</p><ul><li><p><a href="https://www.cnblogs.com/meihao1203/p/9670680.html">insert</a></p></li><li><p><a href="http://www.cplusplus.com/reference/string/">replace</a></p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>剑指 Offer 04. 二维数组中的查找</title>
       <link href="/2021/09/01/leetcode3/"/>
       <url>/2021/09/01/leetcode3/</url>
@@ -20,9 +74,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -47,9 +101,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -74,9 +128,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -101,9 +155,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -128,9 +182,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
