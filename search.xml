@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 19. 正则表达式匹配</title>
+      <link href="/2021/09/07/leetcode15/"/>
+      <url>/2021/09/07/leetcode15/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/">剑指 Offer 19. 正则表达式匹配</a></p><p>难度 困难</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>写一晚上没写出来。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>用<code>dp[i][j]</code>表示s的前i个字符和p的前j个字符是否能匹配，由于 <code>dp[0][0]</code> 代表的是空字符的状态， 因此 <code>dp[i][j]</code> 对应的添加字符是 <code>s[i - 1]</code> 和 <code>p[j - 1]</code>。</p><ul><li>当 <code>p[j - 1] = &#39;*&#39;</code> 时， <code>dp[i][j]</code> 在当以下任一情况为 true 时等于 true ：<ul><li><strong><code>dp[i][j - 2]</code>：</strong> 即将字符组合 <code>p[j - 2] *</code> 看作出现 0 次时，能否匹配；</li><li><strong><code>dp[i - 1][j]</code> 且 <code>s[i - 1] = p[j - 2]</code>:</strong> 即让字符 <code>p[j - 2]</code> 多出现 1 次时，能否匹配；</li><li><strong><code>dp[i - 1][j]</code> 且 <code>p[j - 2] = &#39;.&#39;</code>:</strong> 即让字符 <code>&#39;.&#39;</code> 多出现 1 次时，能否匹配；</li></ul></li><li>当 <code>p[j - 1] != &#39;*&#39;</code> 时， <code>dp[i][j]</code> 在当以下任一情况为 true时等于 true：<ul><li><strong><code>dp[i - 1][j - 1]</code> 且 <code>s[i - 1] = p[j - 1]</code>：</strong> 即让字符 <code>p[j - 1]</code> 多出现一次时，能否匹配；</li><li><strong><code>dp[i - 1][j - 1]</code> 且 <code>p[j - 1] = &#39;.&#39;</code>：</strong> 即将字符 <code>.</code> 看作字符 <code>s[i - 1]</code> 时，能否匹配；</li></ul></li><li><strong>初始化：</strong> 需要先初始化 <code>dp</code> 矩阵首行，以避免状态转移时索引越界。<ul><li><strong><code>dp[0][0] = true</code></strong></li><li><strong><code>dp[0][j] = dp[0][j - 2]</code> 且 <code>p[j - 1] = &#39;*&#39;</code></strong></li></ul></li></ul><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(string s, string p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = s.<span class="built_in">size</span>() + <span class="number">1</span>, n = p.<span class="built_in">size</span>() + <span class="number">1</span>;</span><br><span class="line">        vector&lt;vector&lt;<span class="keyword">bool</span>&gt;&gt; <span class="built_in">dp</span>(m, vector&lt;<span class="keyword">bool</span>&gt;(n, <span class="literal">false</span>));</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>; j &lt; n; j += <span class="number">2</span>)</span><br><span class="line">            dp[<span class="number">0</span>][j] = dp[<span class="number">0</span>][j - <span class="number">2</span>] &amp;&amp; p[j - <span class="number">1</span>] == <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n; j++) &#123;</span><br><span class="line">                dp[i][j] = p[j - <span class="number">1</span>] == <span class="string">&#x27;*&#x27;</span> ?</span><br><span class="line">                    dp[i][j - <span class="number">2</span>] || dp[i - <span class="number">1</span>][j] &amp;&amp; (s[i - <span class="number">1</span>] == p[j - <span class="number">2</span>] || p[j - <span class="number">2</span>] == <span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">                    dp[i - <span class="number">1</span>][j - <span class="number">1</span>] &amp;&amp; (p[j - <span class="number">1</span>] == <span class="string">&#x27;.&#x27;</span> || s[i - <span class="number">1</span>] == p[j - <span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m - <span class="number">1</span>][n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>动态规划最主要的是分析得出状态转移方程。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 17. 打印从1到最大的n位数</title>
       <link href="/2021/09/06/leetcode14/"/>
       <url>/2021/09/06/leetcode14/</url>
@@ -20,9 +47,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -47,9 +74,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -74,9 +101,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -101,9 +128,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -128,9 +155,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -155,9 +182,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -182,9 +209,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -209,9 +236,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -236,9 +263,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -263,9 +290,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -290,9 +317,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -317,9 +344,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -344,9 +371,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -371,9 +398,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -398,9 +425,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -425,9 +452,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
