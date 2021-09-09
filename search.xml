@@ -4,6 +4,87 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 26. 树的子结构</title>
+      <link href="/2021/09/09/leetcode21/"/>
+      <url>/2021/09/09/leetcode21/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/">剑指 Offer 26. 树的子结构</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>使用bfs遍历A，找到与B头节点值相等的节点，调用judge，分别使用bfs遍历进行比较。若有一次judge调用返回true，则说明A包含B。M为A节点数，N为B节点数，时间复杂度O(MN)，空间复杂度O(M)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">judge</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        queue&lt;TreeNode*&gt; m;</span><br><span class="line">        queue&lt;TreeNode*&gt; n;</span><br><span class="line">        m.<span class="built_in">push</span>(A);</span><br><span class="line">        n.<span class="built_in">push</span>(B);</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">            TreeNode* anode = m.<span class="built_in">front</span>();</span><br><span class="line">            TreeNode* bnode = n.<span class="built_in">front</span>();</span><br><span class="line">            <span class="keyword">if</span>(!anode &amp;&amp; bnode) &#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;&quot;ji1&quot;&lt;&lt;endl;</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(anode &amp;&amp; !bnode) &#123;</span><br><span class="line">                m.<span class="built_in">pop</span>();</span><br><span class="line">                n.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span>(n.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!anode &amp;&amp; !bnode) &#123;</span><br><span class="line">                m.<span class="built_in">pop</span>();</span><br><span class="line">                n.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span>(n.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(anode-&gt;val != bnode-&gt;val) &#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;&quot;ji2&quot;&lt;&lt;endl;</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">               m.<span class="built_in">pop</span>();</span><br><span class="line">               m.<span class="built_in">push</span>(anode-&gt;left);</span><br><span class="line">               m.<span class="built_in">push</span>(anode-&gt;right);</span><br><span class="line">               n.<span class="built_in">pop</span>();</span><br><span class="line">               n.<span class="built_in">push</span>(bnode-&gt;left);</span><br><span class="line">               n.<span class="built_in">push</span>(bnode-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(m.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">        queue&lt;TreeNode*&gt; tmp;</span><br><span class="line">        tmp.<span class="built_in">push</span>(A);</span><br><span class="line">        <span class="keyword">if</span>(!B || !A) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!tmp.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            TreeNode* node = tmp.<span class="built_in">front</span>();</span><br><span class="line">            <span class="keyword">if</span>(node == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;&quot;null&quot;&lt;&lt;endl;</span></span><br><span class="line">                tmp.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(node-&gt;val == B-&gt;val) &#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;&quot;judge&quot;&lt;&lt;endl;</span></span><br><span class="line">                flag += <span class="built_in">judge</span>(node, B);</span><br><span class="line">                tmp.<span class="built_in">pop</span>();</span><br><span class="line">                tmp.<span class="built_in">push</span>(node-&gt;left);</span><br><span class="line">                tmp.<span class="built_in">push</span>(node-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//cout&lt;&lt;&quot;none&quot;&lt;&lt;endl;</span></span><br><span class="line">                tmp.<span class="built_in">pop</span>();</span><br><span class="line">                tmp.<span class="built_in">push</span>(node-&gt;left);</span><br><span class="line">                tmp.<span class="built_in">push</span>(node-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;flag&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>使用两个递归，首先调用isSubStructure前序遍历树A的节点，然后调用judge判断以结点为根节点的子树是否包含树B。M为A节点数，N为B节点数，时间复杂度O(MN)，空间复杂度O(M)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">judge</span><span class="params">(TreeNode* a, TreeNode* b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!b) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!a || a-&gt;val != b-&gt;val) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">judge</span>(a-&gt;left, b-&gt;left) &amp;&amp; <span class="built_in">judge</span>(a-&gt;right, b-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!B || !A) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">judge</span>(A, B) || <span class="built_in">isSubStructure</span>(A-&gt;left, B) || <span class="built_in">isSubStructure</span>(A-&gt;right, B);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>树的相关问题考虑递归，设计递归时关注函数的功能、中止条件、返回值，不需要过于纠结运行细节。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode题解 剑指 Offer 22. 链表中倒数第k个节点</title>
+      <link href="/2021/09/09/leetcode20/"/>
+      <url>/2021/09/09/leetcode20/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">剑指 Offer 22. 链表中倒数第k个节点</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>首先遍历一次得出链表长度，然后再遍历一次返回链表。时间复杂度O(n)，空间复杂度O(1)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">getKthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        ListNode* tmp = head;</span><br><span class="line">        <span class="keyword">while</span>(tmp) &#123;</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        tmp = head;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cnt - k; i++) &#123;</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-ANSWER"><a href="#BETTER-ANSWER" class="headerlink" title="BETTER ANSWER"></a>BETTER ANSWER</h2><p>快慢指针，快指针比慢指针先走k步，然后开始一起走直到快指针到达末尾，慢指针即为答案。时间空间复杂度与上面的一个阶，但比上面要低。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">getKthFromEnd</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (fast &amp;&amp; k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            fast = fast-&gt;next;</span><br><span class="line">            k--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (fast) &#123;</span><br><span class="line">            fast = fast-&gt;next;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p><strong>注意使用双指针来获取倒数节点，避免重复遍历。</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode题解 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面</title>
+      <link href="/2021/09/09/leetcode19/"/>
+      <url>/2021/09/09/leetcode19/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/">剑指 Offer 21. 调整数组顺序使奇数位于偶数前面</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>顺序遍历，偶数存入偶数数组，奇数存入奇数数组，返回组合后的数组。时间复杂度O(n)，空间复杂度O(n)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">exchange</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; even;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; odd;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] &amp; <span class="number">1</span>) &#123;</span><br><span class="line">                odd.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                even.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; even.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            odd.<span class="built_in">push_back</span>(even[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> odd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>类似快排的双指针法，进行交换。第一种是一头一尾，第二种是两个都从头开始。时间复杂度O(n)，空间复杂度O(1)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">exchange</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((nums[left] &amp; <span class="number">1</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">                left ++;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((nums[right] &amp; <span class="number">1</span>) != <span class="number">1</span>) &#123;</span><br><span class="line">                right --;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">swap</span>(nums[left++], nums[right--]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">exchange</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>, fast = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (fast &lt; nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[fast] &amp; <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(nums[low], nums[fast]);</span><br><span class="line">                low ++;</span><br><span class="line">            &#125;</span><br><span class="line">            fast ++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>复习一下快排思想。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 30. 包含min函数的栈</title>
       <link href="/2021/09/09/leetcode18/"/>
       <url>/2021/09/09/leetcode18/</url>
@@ -20,9 +101,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -47,9 +128,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -74,9 +155,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -101,9 +182,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -128,9 +209,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -155,9 +236,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -182,9 +263,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -209,9 +290,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -236,9 +317,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -263,9 +344,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -290,9 +371,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -317,9 +398,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -344,9 +425,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -371,9 +452,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -398,9 +479,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -425,9 +506,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -452,9 +533,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -479,9 +560,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -506,9 +587,9 @@
       
         <tags>
             
-            <tag> 暑假 </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> 暑假 </tag>
             
         </tags>
       
@@ -533,9 +614,9 @@
       
         <tags>
             
-            <tag> 暑假 </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> 暑假 </tag>
             
         </tags>
       
