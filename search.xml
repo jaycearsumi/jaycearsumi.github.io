@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解</title>
+      <link href="/2021/09/09/leetcode22/"/>
+      <url>/2021/09/09/leetcode22/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/">剑指 Offer 31. 栈的压入、弹出序列</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>使用栈进行模拟，时间复杂度为O(n)，空间复杂度为O(n)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">validateStackSequences</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; pushed, vector&lt;<span class="keyword">int</span>&gt;&amp; popped)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pushp = <span class="number">0</span>, popp = <span class="number">0</span>;</span><br><span class="line">        stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">        <span class="keyword">while</span>(pushp &lt; pushed.<span class="built_in">size</span>() || popp &lt; popped.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(s.<span class="built_in">empty</span>() || pushed.<span class="built_in">size</span>() &amp;&amp; popped[popp] != s.<span class="built_in">top</span>()) &#123;</span><br><span class="line">                <span class="keyword">while</span>(pushp &lt; pushed.<span class="built_in">size</span>()) &#123;</span><br><span class="line">                    s.<span class="built_in">push</span>(pushed[pushp]);</span><br><span class="line">                    <span class="keyword">if</span>(pushed[pushp] == popped[popp]) &#123;</span><br><span class="line">                        pushp++;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    pushp++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(s.<span class="built_in">size</span>() &amp;&amp; popped[popp] == s.<span class="built_in">top</span>()) &#123;</span><br><span class="line">                s.<span class="built_in">pop</span>();</span><br><span class="line">                popp++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>代码更简洁的模拟，当栈不为空时说明序列不对。使用c++11的foreach：<code>for(int num:pushed)</code>。时间空间复杂度相同。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">validateStackSequences</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; pushed, vector&lt;<span class="keyword">int</span>&gt;&amp; popped)</span> </span>&#123;</span><br><span class="line">        stack&lt;<span class="keyword">int</span>&gt;st;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//用栈模拟 pushed[i]==4的时候，弹出 i++, 5 的时候也弹出,i++, 这时候栈顶是3 还是相同操作，很巧妙</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:pushed)&#123;</span><br><span class="line">            <span class="comment">// 1 2 3 4 5      4 5 3 2 1</span></span><br><span class="line">            st.<span class="built_in">push</span>(num);</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>()&amp;&amp;st.<span class="built_in">top</span>()==popped[i])&#123;</span><br><span class="line">                st.<span class="built_in">pop</span>();</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> st.<span class="built_in">empty</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>加深对栈的理解，使用foreach以及合并条件判断简化代码。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 26. 树的子结构</title>
       <link href="/2021/09/09/leetcode21/"/>
       <url>/2021/09/09/leetcode21/</url>
@@ -20,9 +47,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -47,9 +74,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -74,9 +101,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -101,9 +128,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -128,9 +155,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -155,9 +182,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -182,9 +209,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -209,9 +236,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -236,9 +263,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -263,9 +290,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -290,9 +317,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -317,9 +344,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -344,9 +371,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -371,9 +398,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -398,9 +425,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -425,9 +452,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -452,9 +479,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -479,9 +506,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -506,9 +533,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -533,9 +560,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -560,9 +587,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -587,9 +614,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -614,9 +641,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
