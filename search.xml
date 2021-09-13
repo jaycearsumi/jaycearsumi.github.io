@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 39. 数组中出现次数超过一半的数字</title>
+      <link href="/2021/09/13/leetcode30/"/>
+      <url>/2021/09/13/leetcode30/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/">剑指 Offer 39. 数组中出现次数超过一半的数字</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>哈希表储存元素个数，超过一半时返回。时间空间复杂度都为O(n)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">majorityElement</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; ht;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(ht.<span class="built_in">find</span>(nums[i]) != ht.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                ht[nums[i]]++;</span><br><span class="line">                <span class="keyword">if</span>(ht[nums[i]] &gt; nums.<span class="built_in">size</span>() / <span class="number">2</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> nums[i];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ht[nums[i]] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>摩尔投票法，根本思想是相互抵消，最终剩下的元素就是比一半多的元素。空间复杂度降到O(1)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">majorityElement</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> x = <span class="number">0</span>, votes = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            <span class="keyword">if</span>(votes == <span class="number">0</span>) x = num;</span><br><span class="line">            votes += num == x ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>重点掌握摩尔投票法的代码。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode题解 剑指 Offer 37. 序列化二叉树</title>
+      <link href="/2021/09/13/leetcode28/"/>
+      <url>/2021/09/13/leetcode28/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/">剑指 Offer 37. 序列化二叉树</a></p><p>难度 困难</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><ul><li>队列实现bfs，使用to_string来实现int到string的转换，从而实现二叉树的序列化。</li><li>首先使用循环与substr对字符串进行分割，储存到string向量中。同样使用队列实现二叉树的构建，从队头中取节点添加儿子节点，将儿子节点入队。同时遍历string向量，index指示当前节点对应的儿子节点的值，构建节点使用stoi将字符串转换为int。</li><li>时间复杂度O(n)，空间复杂度O(n)。</li></ul><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Codec</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Encodes a tree to a single string.</span></span><br><span class="line">    <span class="function">string <span class="title">serialize</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;[]&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        string str = <span class="string">&quot;[&quot;</span>;</span><br><span class="line">        queue&lt;TreeNode*&gt; bfs;</span><br><span class="line">        bfs.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(bfs.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            cnt++;</span><br><span class="line">            TreeNode* tmp = bfs.<span class="built_in">front</span>();</span><br><span class="line">            <span class="keyword">if</span>(tmp) &#123;</span><br><span class="line">                str += <span class="built_in">to_string</span>(tmp-&gt;val) + <span class="string">&quot;,&quot;</span>;</span><br><span class="line">                bfs.<span class="built_in">push</span>(tmp-&gt;left);</span><br><span class="line">                bfs.<span class="built_in">push</span>(tmp-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                str += <span class="string">&quot;null,&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            bfs.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        str[str.<span class="built_in">length</span>() - <span class="number">1</span>] = <span class="string">&#x27;]&#x27;</span>;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;str&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Decodes your encoded data to tree.</span></span><br><span class="line">    <span class="function">TreeNode* <span class="title">deserialize</span><span class="params">(string data)</span> </span>&#123;</span><br><span class="line">        TreeNode* root = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>(!data.<span class="built_in">compare</span>(<span class="string">&quot;[]&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;string&gt; seq;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">1</span>, end = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; data.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(data[i] == <span class="string">&#x27;,&#x27;</span> || data[i] == <span class="string">&#x27;]&#x27;</span>) &#123;</span><br><span class="line">                end = i;</span><br><span class="line">                seq.<span class="built_in">push_back</span>(data.<span class="built_in">substr</span>(start, end - start));</span><br><span class="line">                start = end + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// for(int i = 0; i &lt; seq.size(); i++) &#123;</span></span><br><span class="line">        <span class="comment">//     cout&lt;&lt;seq[i]&lt;&lt;endl;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        root = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(seq[<span class="number">0</span>]));</span><br><span class="line">        queue&lt;TreeNode*&gt; bfs;</span><br><span class="line">        bfs.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(index &lt; seq.<span class="built_in">size</span>() &amp;&amp; bfs.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            TreeNode* tmp = bfs.<span class="built_in">front</span>();</span><br><span class="line">            <span class="keyword">if</span>(!tmp) &#123;</span><br><span class="line">                bfs.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(seq[index].<span class="built_in">compare</span>(<span class="string">&quot;null&quot;</span>)) &#123;</span><br><span class="line">                tmp-&gt;left = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(seq[index]));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                tmp-&gt;left = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            bfs.<span class="built_in">push</span>(tmp-&gt;left);</span><br><span class="line">            index++;</span><br><span class="line">            <span class="keyword">if</span>(seq[index].<span class="built_in">compare</span>(<span class="string">&quot;null&quot;</span>)) &#123;</span><br><span class="line">                tmp-&gt;right = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(<span class="built_in">stoi</span>(seq[index]));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                tmp-&gt;right = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            bfs.<span class="built_in">push</span>(tmp-&gt;right);</span><br><span class="line">            index++;</span><br><span class="line">            bfs.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Your Codec object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment">// Codec codec;</span></span><br><span class="line"><span class="comment">// codec.deserialize(codec.serialize(root));</span></span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>思路相同。</p><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>bfs实现对树的层序遍历，注意<strong>to_string、stoi、substr</strong>这几个库函数的调用。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 36. 二叉搜索树与双向链表</title>
       <link href="/2021/09/12/leetcode27/"/>
       <url>/2021/09/12/leetcode27/</url>
@@ -20,9 +74,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -47,9 +101,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -74,9 +128,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -101,9 +155,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -128,9 +182,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -155,9 +209,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -182,9 +236,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -209,9 +263,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -236,9 +290,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -263,9 +317,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -290,9 +344,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -317,9 +371,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -344,9 +398,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -371,9 +425,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -398,9 +452,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -425,9 +479,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -452,9 +506,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -479,9 +533,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -506,9 +560,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -533,9 +587,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -560,9 +614,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -587,9 +641,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -614,9 +668,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -641,9 +695,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -668,9 +722,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -695,9 +749,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -722,9 +776,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> Leetcode </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -749,9 +803,9 @@
       
         <tags>
             
-            <tag> 暑假 </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> 暑假 </tag>
             
         </tags>
       
@@ -776,9 +830,9 @@
       
         <tags>
             
-            <tag> 暑假 </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> 暑假 </tag>
             
         </tags>
       
