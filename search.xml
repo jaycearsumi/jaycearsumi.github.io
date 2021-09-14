@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>leetcode31</title>
+      <link href="/2021/09/15/leetcode31/"/>
+      <url>/2021/09/15/leetcode31/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">剑指 Offer 40. 最小的k个数</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>使用大顶堆，遍历到比堆顶小的元素时，出堆并将元素插入。priority_queue默认就为大顶堆，若构造小顶堆取相反数即可。时间复杂度为O(nlogk)，空间复杂度O(k)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">getLeastNumbers</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        priority_queue&lt;<span class="keyword">int</span>&gt; heap;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        <span class="keyword">if</span>(arr.<span class="built_in">empty</span>() || !k) &#123;</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            heap.<span class="built_in">push</span>(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = k; i &lt; arr.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[i] &lt; heap.<span class="built_in">top</span>()) &#123;</span><br><span class="line">                heap.<span class="built_in">pop</span>();</span><br><span class="line">                heap.<span class="built_in">push</span>(arr[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(heap.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(heap.<span class="built_in">top</span>());</span><br><span class="line">            heap.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>快排思路，划分直到pivot等于k为止，返回前面k个数。平均时间复杂度O(n)，最坏情况下时间复杂度为O(n^2)，空间复杂度O(logn)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; arr;</span><br><span class="line">    <span class="keyword">int</span> k;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">qselect</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> pivot = arr[left];</span><br><span class="line">        <span class="keyword">int</span> i = left, j = right;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; j) &#123;</span><br><span class="line">            <span class="keyword">while</span>(arr[j] &gt;= pivot &amp;&amp; i &lt; j) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(arr[i] &lt;= pivot &amp;&amp; i &lt; j) &#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">swap</span>(arr[i], arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">swap</span>(arr[left], arr[i]);</span><br><span class="line">        <span class="comment">//cout&lt;&lt;i&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(i &lt; k) &#123;</span><br><span class="line">            <span class="built_in">qselect</span>(i + <span class="number">1</span>, right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i &gt; k) &#123;</span><br><span class="line">            <span class="built_in">qselect</span>(left, i - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i == k) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">getLeastNumbers</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(k &gt;= arr.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> arr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>-&gt;arr = arr;</span><br><span class="line">        <span class="keyword">this</span>-&gt;k = k;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        <span class="built_in">qselect</span>(<span class="number">0</span>, arr.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(<span class="keyword">this</span>-&gt;arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><ul><li><p><a href="http://www.cplusplus.com/reference/queue/priority_queue/">priority_queue</a></p></li><li><p>堆模板：</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//小顶堆</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">binaryheap</span> &#123;</span></span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; array;</span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span> <span class="params">()</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        array.push_back(INT_MIN);<span class="comment">//0储存最小标志，堆元素从1开始</span></span></span></span><br><span class="line"><span class="params"><span class="function">        size = <span class="number">0</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span>(i = ++size; array[i/<span class="number">2</span>] &gt; x; i /= <span class="number">2</span>) &#123;</span><br><span class="line">            array[i] = array[i/<span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        array[i] = x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i, child;</span><br><span class="line">        <span class="keyword">int</span> min, last;</span><br><span class="line">        min = array[<span class="number">1</span>];</span><br><span class="line">        last = array[size--];</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">1</span>; i * <span class="number">2</span> &lt;= size; i = child) &#123;</span><br><span class="line">            child = i * <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(child != size &amp;&amp; array[child+<span class="number">1</span>] &lt; array[child]) &#123;</span><br><span class="line">                child++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(last &gt; array[child]) &#123;</span><br><span class="line">                array[i] = array[child];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            array[i] = last;</span><br><span class="line">            array.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">buildheap</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt; arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = (arr.<span class="built_in">size</span>() - <span class="number">1</span>) / <span class="number">2</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">int</span> j;</span><br><span class="line">        <span class="keyword">for</span>(j = i; j * <span class="number">2</span> &lt;= size; j = child) &#123;</span><br><span class="line">                child = j * <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">if</span>(child != size &amp;&amp; array[child+<span class="number">1</span>] &lt; array[child]) &#123;</span><br><span class="line">                    child++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(last &gt; array[child]) &#123;</span><br><span class="line">                    array[i] = array[child];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                array[j] = last;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>快排模板：</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 子数组长度为 1 时终止递归</span></span><br><span class="line">        <span class="keyword">if</span> (l &gt;= r) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// 哨兵划分操作（以 arr[l] 作为基准数）</span></span><br><span class="line">        <span class="keyword">int</span> i = l, j = r;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= arr[l]) j--;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= arr[l]) i++;</span><br><span class="line">            <span class="built_in">swap</span>(arr[i], arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">swap</span>(arr[i], arr[l]);</span><br><span class="line">        <span class="comment">// 递归左（右）子数组执行哨兵划分</span></span><br><span class="line">        <span class="built_in">quickSort</span>(arr, l, i - <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">quickSort</span>(arr, i + <span class="number">1</span>, r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 39. 数组中出现次数超过一半的数字</title>
       <link href="/2021/09/13/leetcode30/"/>
       <url>/2021/09/13/leetcode30/</url>
@@ -20,9 +47,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -47,9 +74,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -74,9 +101,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -101,9 +128,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -128,9 +155,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -155,9 +182,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -182,9 +209,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -209,9 +236,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -236,9 +263,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -263,9 +290,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -290,9 +317,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -317,9 +344,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -344,9 +371,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -371,9 +398,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -398,9 +425,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -425,9 +452,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -452,9 +479,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -479,9 +506,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -506,9 +533,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -533,9 +560,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -560,9 +587,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -587,9 +614,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -614,9 +641,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -641,9 +668,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -668,9 +695,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -695,9 +722,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -722,9 +749,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -749,9 +776,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -776,9 +803,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -803,9 +830,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -830,9 +857,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
