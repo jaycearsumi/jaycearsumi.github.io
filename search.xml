@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 43. 1～n 整数中 1 出现的次数</title>
+      <link href="/2021/09/16/leetcode33/"/>
+      <url>/2021/09/16/leetcode33/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/">剑指 Offer 43. 1～n 整数中 1 出现的次数</a></p><p>难度 困难</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>无。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>逐位计算1出现的次数，类似滚动密码锁，固定住一位1，计算有多少个数与这个1组合。时间复杂度O(logn)，空间复杂度O(1)。每位分3种情况：</p><ul><li><p>cur = 0</p><p><img src="https://pic.leetcode-cn.com/78e60b6c2ada7434ba69643047758e113fa732815f7c53791271c5e0f123687c-Picture1.png" alt="Picture1.png"></p></li><li><p>cur = 1</p><p><img src="https://pic.leetcode-cn.com/58c7e6472155b49923b48daac10bd438b68e9504690cf45d5e739f3a8cb9cee1-Picture2.png" alt="Picture2.png"></p></li><li><p>cur &gt; 1</p><p><img src="https://pic.leetcode-cn.com/0e51d37b434ef0ad93882cdcb832f867e18b872833c0c360ad4580eb9ed4aeda-Picture3.png" alt="Picture3.png"></p></li></ul><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countDigitOne</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> cur = n % <span class="number">10</span>;</span><br><span class="line">       <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> high = n / <span class="number">10</span>;</span><br><span class="line">       <span class="keyword">long</span> <span class="keyword">long</span> digit = <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span>(cur != <span class="number">0</span> || high != <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span>(cur == <span class="number">0</span>) &#123;</span><br><span class="line">               res += high * digit;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span>(cur == <span class="number">1</span>) &#123;</span><br><span class="line">               res += high * digit + low + <span class="number">1</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span> &#123;</span><br><span class="line">               res += (high + <span class="number">1</span>) * digit;</span><br><span class="line">           &#125;</span><br><span class="line">           low += cur * digit;</span><br><span class="line">           cur = high % <span class="number">10</span>;</span><br><span class="line">           high /= <span class="number">10</span>;</span><br><span class="line">           digit *= <span class="number">10</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>理解滚动密码锁的思想。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 41. 数据流中的中位数</title>
       <link href="/2021/09/15/leetcode32/"/>
       <url>/2021/09/15/leetcode32/</url>
