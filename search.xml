@@ -4,6 +4,87 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 46. 把数字翻译成字符串</title>
+      <link href="/2021/09/17/leetcode36/"/>
+      <url>/2021/09/17/leetcode36/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/">剑指 Offer 46. 把数字翻译成字符串</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>将数字转换为字符串，使用动态规划。时间复杂度O(logn)，空间复杂度O(logn)。代码还可继续优化：因为只需用到i - 2和i - 1的结果，所以可以不使用数组存储每位的结果，只使用两个变量储存前两位的结果。</p><p><img src="https://pic.leetcode-cn.com/e231fde16304948251633cfc65d04396f117239ea2d13896b1d2678de9067b42-Picture1.png" alt="Picture1.png"></p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="keyword">int</span>&gt; res;</span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="number">1</span>);</span><br><span class="line">        res.<span class="built_in">push_back</span>(<span class="number">1</span>);</span><br><span class="line">        string str = <span class="built_in">to_string</span>(num);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; str.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> tmp = res[i];</span><br><span class="line">            <span class="keyword">if</span>(str.<span class="built_in">substr</span>(i - <span class="number">1</span>, <span class="number">2</span>) &lt;= <span class="string">&quot;25&quot;</span> &amp;&amp; str.<span class="built_in">substr</span>(i - <span class="number">1</span>, <span class="number">2</span>) &gt;= <span class="string">&quot;10&quot;</span>) &#123;</span><br><span class="line">                tmp += res[i - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            res.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res[res.<span class="built_in">size</span>() - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>使用求余和求整实现从右向左的遍历进行动态规划，将空间复杂度降到常数。从右向左和从左向右的动态规划结果相同。</p><h4 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">1</span>, x, y = num % <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">while</span>(num != <span class="number">0</span>) &#123;</span><br><span class="line">            num /= <span class="number">10</span>;</span><br><span class="line">            x = num % <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">int</span> tmp = <span class="number">10</span> * x + y;</span><br><span class="line">            <span class="keyword">int</span> c = (tmp &gt;= <span class="number">10</span> &amp;&amp; tmp &lt;= <span class="number">25</span>) ? a + b : a;</span><br><span class="line">            b = a;</span><br><span class="line">            a = c;</span><br><span class="line">            y = x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">translateNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (num&lt;=<span class="number">9</span>) &#123;<span class="keyword">return</span> <span class="number">1</span>;&#125;</span><br><span class="line">        <span class="comment">//获取输入数字的余数，然后递归的计算翻译方法</span></span><br><span class="line">        <span class="keyword">int</span> ba = num%<span class="number">100</span>;</span><br><span class="line">        <span class="comment">//如果小于等于9或者大于等于26的时候，余数不能按照2位数字组合，比如56，只能拆分为5和6；反例25，可以拆分为2和5，也可以作为25一个整体进行翻译。</span></span><br><span class="line">        <span class="keyword">if</span> (ba&lt;=<span class="number">9</span>||ba&gt;=<span class="number">26</span>) &#123;<span class="keyword">return</span> <span class="built_in">translateNum</span>(num/<span class="number">10</span>);&#125;</span><br><span class="line">        <span class="comment">// ba=[10, 25]时，既可以当做一个字母，也可以当做两个字母</span></span><br><span class="line">        <span class="keyword">else</span>  &#123;<span class="keyword">return</span> <span class="built_in">translateNum</span>(num/<span class="number">10</span>)+<span class="built_in">translateNum</span>(num/<span class="number">100</span>);&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>动态规划时还可注意如何降低空间复杂度。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode题解 剑指 Offer 45. 把数组排成最小的数</title>
+      <link href="/2021/09/17/leetcode35/"/>
+      <url>/2021/09/17/leetcode35/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/">剑指 Offer 45. 把数组排成最小的数</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>无。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>本质上是排序问题，排序规则为（字符串比较）：</p><ul><li>拼接字符串x + y &gt; y + x，则x &gt; y</li><li>反之x + y &lt; y + x，则x &lt; y</li></ul><p>将数组按规则从小到大排序再连接即为答案。时间复杂度O(nlogn)，空间复杂度O(n)。</p><p>两种实现方法：</p><h3 id="手写快排"><a href="#手写快排" class="headerlink" title="手写快排"></a>手写快排</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">minNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector&lt;string&gt; strs;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++)</span><br><span class="line">            strs.<span class="built_in">push_back</span>(<span class="built_in">to_string</span>(nums[i]));</span><br><span class="line">        <span class="built_in">quickSort</span>(strs, <span class="number">0</span>, strs.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        string res;</span><br><span class="line">        <span class="keyword">for</span>(string s : strs)</span><br><span class="line">            res.<span class="built_in">append</span>(s);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(vector&lt;string&gt;&amp; strs, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l &gt;= r) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> i = l, j = r;</span><br><span class="line">        <span class="keyword">while</span>(i &lt; j) &#123;</span><br><span class="line">            <span class="keyword">while</span>(strs[j] + strs[l] &gt;= strs[l] + strs[j] &amp;&amp; i &lt; j) j--;</span><br><span class="line">            <span class="keyword">while</span>(strs[i] + strs[l] &lt;= strs[l] + strs[i] &amp;&amp; i &lt; j) i++;</span><br><span class="line">            <span class="built_in">swap</span>(strs[i], strs[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">swap</span>(strs[i], strs[l]);</span><br><span class="line">        <span class="built_in">quickSort</span>(strs, l, i - <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">quickSort</span>(strs, i + <span class="number">1</span>, r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h3 id="sort更改比较函数"><a href="#sort更改比较函数" class="headerlink" title="sort更改比较函数"></a>sort更改比较函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">minNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector&lt;string&gt; strs;</span><br><span class="line">        string res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++)</span><br><span class="line">            strs.<span class="built_in">push_back</span>(<span class="built_in">to_string</span>(nums[i]));</span><br><span class="line">        <span class="built_in">sort</span>(strs.<span class="built_in">begin</span>(), strs.<span class="built_in">end</span>(), [](string&amp; x, string&amp; y)&#123; <span class="keyword">return</span> x + y &lt; y + x; &#125;);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.<span class="built_in">size</span>(); i++)</span><br><span class="line">            res.<span class="built_in">append</span>(strs[i]);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><ul><li>善用string的字典序比较，c++可直接使用符号；</li><li>复习快排；</li><li>sort第三个参数可改写比较函数；</li><li>匿名函数：<code>[](参数)&#123;函数体&#125;</code>。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>leetcode34</title>
+      <link href="/2021/09/17/leetcode34/"/>
+      <url>/2021/09/17/leetcode34/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/">剑指 Offer 44. 数字序列中某一位的数字</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>时间复杂度O(n)，空间复杂度(1)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findNthDigit</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> num = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> k = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(k &lt; n) &#123;</span><br><span class="line">            k += <span class="number">9</span> * <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>) * i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        i--;</span><br><span class="line">        k -= <span class="number">9</span> * <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>) * i;</span><br><span class="line">        num = <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">while</span>(k &lt; n) &#123;</span><br><span class="line">            k += i;</span><br><span class="line">            num++;</span><br><span class="line">        &#125;</span><br><span class="line">        num--;</span><br><span class="line">        k -= i;</span><br><span class="line">        string str = <span class="built_in">to_string</span>(num);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">stoi</span>(str.<span class="built_in">substr</span>(n - k - <span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 43. 1～n 整数中 1 出现的次数</title>
       <link href="/2021/09/16/leetcode33/"/>
       <url>/2021/09/16/leetcode33/</url>
