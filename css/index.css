@@ -3787,6 +3787,7 @@ blockquote footer cite:before {
   text-shadow: 0.1rem 0.1rem 0.2rem rgba(0,0,0,0.15);
   font-weight: bold;
   cursor: pointer;
+  color: #b8a6d9;
 }
 #nav .menus_items {
   display: inline;
