@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解</title>
+      <link href="/2021/09/23/leetcode46/"/>
+      <url>/2021/09/23/leetcode46/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/fan-zhuan-dan-ci-shun-xu-lcof/">剑指 Offer 58 - I. 翻转单词顺序</a></p><p>难度 简单</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>使用栈读入单词，时间空间复杂度O(n)。还可使用双指针，从尾向前遍历，思路相似。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">reverseWords</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        stack&lt;string&gt; voc;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, len = <span class="number">1</span>, flag = <span class="number">0</span>;</span><br><span class="line">        cout&lt;&lt;<span class="built_in">isgraph</span>(<span class="string">&#x27; &#x27;</span>)&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(!flag &amp;&amp; <span class="built_in">isgraph</span>(s[i])) &#123;</span><br><span class="line">                start = i;</span><br><span class="line">                len = <span class="number">1</span>;</span><br><span class="line">                flag = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(flag &amp;&amp; <span class="built_in">isgraph</span>(s[i])) &#123;</span><br><span class="line">                len++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="built_in">isgraph</span>(s[i]) &amp;&amp; flag || i == s.<span class="built_in">size</span>() - <span class="number">1</span> &amp;&amp; <span class="built_in">isgraph</span>(s[i]) &amp;&amp; flag) &#123;</span><br><span class="line">                voc.<span class="built_in">push</span>(s.<span class="built_in">substr</span>(start, len));</span><br><span class="line">                flag = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        string res;</span><br><span class="line">        <span class="keyword">while</span>(voc.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            res += voc.<span class="built_in">top</span>() + <span class="string">&quot; &quot;</span>;</span><br><span class="line">            voc.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        res.<span class="built_in">pop_back</span>();</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>使用istringstream流，可以将字符串按空格分隔输出。时间空间复杂度O(n)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">reverseWords</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="function">istringstream <span class="title">ss</span><span class="params">(s)</span></span>;</span><br><span class="line">        string res, str;</span><br><span class="line">        <span class="keyword">while</span>(ss &gt;&gt; str)</span><br><span class="line">            res = str + <span class="string">&#x27; &#x27;</span> + res;</span><br><span class="line">        <span class="keyword">return</span> res.<span class="built_in">substr</span>(<span class="number">0</span>, res.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>学习使用istringstream：</p><p><code>istringstream ss(s);</code>将字符串赋值给流；</p><p><code>ss &gt;&gt; str</code>将流输出到str，每次输出按空格分隔的字符串。如</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string str=<span class="string">&quot;i am a boy&quot;</span>;  </span><br><span class="line"><span class="function">istringstream <span class="title">is</span><span class="params">(str)</span></span>;  </span><br><span class="line">string s;  </span><br><span class="line"><span class="keyword">while</span>(is&gt;&gt;s)  </span><br><span class="line">&#123;  </span><br><span class="line">cout&lt;&lt;s&lt;&lt;endl;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure><p>输出：</p><p>i</p><p>am</p><p>a</p><p>boy</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 56 - II. 数组中数字出现的次数 II</title>
       <link href="/2021/09/23/leetcode45/"/>
       <url>/2021/09/23/leetcode45/</url>
@@ -11,6 +38,20 @@
         <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/">剑指 Offer 56 - II. 数组中数字出现的次数 II</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>哈希表存储出现次数，时间空间复杂度为O(n)。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>基本思想：<br><img src="https://pic.leetcode-cn.com/28f2379be5beccb877c8f1586d8673a256594e0fc45422b03773b8d4c8418825-Picture1.png" alt="Picture1.png"></p><p>可以使用基础做法来实现，数组统计二进制位的1的个数。时间复杂度O(n)，空间复杂度O(1)。自动机做法复杂度相同，但计算次数更少。</p><h3 id="有限状态自动机"><a href="#有限状态自动机" class="headerlink" title="有限状态自动机"></a>有限状态自动机</h3><p><img src="https://pic.leetcode-cn.com/0a7ea5bca055b095673620d8bb4c98ef6c610a22f999294ed11ae35d43621e93-Picture3.png" alt="Picture3.png"></p><p>根据状态转移图得出布尔运算式：</p><p><img src="https://pic.leetcode-cn.com/f75d89219ad93c69757b187c64784b4c7a57dce7911884fe82f14073d654d32f-Picture4.png" alt="Picture4.png"></p><p><img src="https://pic.leetcode-cn.com/6ba76dba1ac98ee2bb982e011fdffd1df9a6963f157b2780461dbce453f0ded3-Picture5.png" alt="Picture5.png"></p><p>以上是对数字的二进制中 “一位” 的分析，而 int 类型的其他 31 位具有相同的运算规则，因此可将以上公式直接套用在 32 位数上。</p><p>遍历完所有数字后，各二进制位都处于状态 00 和状态 01 （取决于 “只出现一次的数字” 的各二进制位是 1 还是 0 ），而此两状态是由 one 来记录的（此两状态下 two 恒为 0 ），因此返回 one 即可。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ones = <span class="number">0</span>, twos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            ones = ones ^ num &amp; ~twos;</span><br><span class="line">            twos = twos ^ num &amp; ~ones;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ones;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><ul><li><p>此类问题，要思考二进制位的特性，使用自动机、位运算来解决。</p></li><li><p>状态转移图化简：</p><p>真值表：</p></li></ul><table><thead><tr><th>n</th><th>two</th><th>one</th><th>one’</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td></tr></tbody></table><p><del>n</del>ab + n<del>a</del>b = b</p><p><del>a(</del>nb + n ~b) = ~an^b = b</p><p>即one = one ^ n &amp; ~two</p>]]></content>
       
       
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
       
     </entry>
     
