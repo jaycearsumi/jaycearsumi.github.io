@@ -4,6 +4,46 @@
   
     
     <entry>
+      <title>Leetcode题解 剑指 Offer 56 - II. 数组中数字出现的次数 II</title>
+      <link href="/2021/09/23/leetcode45/"/>
+      <url>/2021/09/23/leetcode45/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/">剑指 Offer 56 - II. 数组中数字出现的次数 II</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>哈希表存储出现次数，时间空间复杂度为O(n)。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>基本思想：<br><img src="https://pic.leetcode-cn.com/28f2379be5beccb877c8f1586d8673a256594e0fc45422b03773b8d4c8418825-Picture1.png" alt="Picture1.png"></p><p>可以使用基础做法来实现，数组统计二进制位的1的个数。时间复杂度O(n)，空间复杂度O(1)。自动机做法复杂度相同，但计算次数更少。</p><h3 id="有限状态自动机"><a href="#有限状态自动机" class="headerlink" title="有限状态自动机"></a>有限状态自动机</h3><p><img src="https://pic.leetcode-cn.com/0a7ea5bca055b095673620d8bb4c98ef6c610a22f999294ed11ae35d43621e93-Picture3.png" alt="Picture3.png"></p><p>根据状态转移图得出布尔运算式：</p><p><img src="https://pic.leetcode-cn.com/f75d89219ad93c69757b187c64784b4c7a57dce7911884fe82f14073d654d32f-Picture4.png" alt="Picture4.png"></p><p><img src="https://pic.leetcode-cn.com/6ba76dba1ac98ee2bb982e011fdffd1df9a6963f157b2780461dbce453f0ded3-Picture5.png" alt="Picture5.png"></p><p>以上是对数字的二进制中 “一位” 的分析，而 int 类型的其他 31 位具有相同的运算规则，因此可将以上公式直接套用在 32 位数上。</p><p>遍历完所有数字后，各二进制位都处于状态 00 和状态 01 （取决于 “只出现一次的数字” 的各二进制位是 1 还是 0 ），而此两状态是由 one 来记录的（此两状态下 two 恒为 0 ），因此返回 one 即可。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ones = <span class="number">0</span>, twos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)&#123;</span><br><span class="line">            ones = ones ^ num &amp; ~twos;</span><br><span class="line">            twos = twos ^ num &amp; ~ones;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ones;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><ul><li><p>此类问题，要思考二进制位的特性，使用自动机、位运算来解决。</p></li><li><p>状态转移图化简：</p><p>真值表：</p></li></ul><table><thead><tr><th>n</th><th>two</th><th>one</th><th>one’</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td></tr></tbody></table><p><del>n</del>ab + n<del>a</del>b = b</p><p><del>a(</del>nb + n ~b) = ~an^b = b</p><p>即one = one ^ n &amp; ~two</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode题解 剑指 Offer 56 - I. 数组中数字出现的次数</title>
+      <link href="/2021/09/23/leetcode44/"/>
+      <url>/2021/09/23/leetcode44/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/">剑指 Offer 56 - I. 数组中数字出现的次数</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>无。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>先遍历使用异或计算出独立数字a^b，然后找出a^b中一个为1的位，即a和b不相同的一位。用此位将数组分成含a的一组与含b的一组，可知这两组的其他数字都是若干对重复数字。对这两组进行异或，即可得出a与b。时间复杂度O(n)，空间复杂度O(1)。</p><p><img src="https://pic.leetcode-cn.com/1614836837-oygHyk-Picture2.png" alt="Picture2.png"></p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">singleNumbers</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> x = <span class="number">0</span>, y = <span class="number">0</span>, n = <span class="number">0</span>, m = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums)         <span class="comment">// 1. 遍历异或</span></span><br><span class="line">            n ^= num;</span><br><span class="line">        <span class="keyword">while</span>((n &amp; m) == <span class="number">0</span>)         <span class="comment">// 2. 循环左移，计算 m</span></span><br><span class="line">            m &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num : nums) &#123;       <span class="comment">// 3. 遍历 nums 分组</span></span><br><span class="line">            <span class="keyword">if</span>(num &amp; m) x ^= num;   <span class="comment">// 4. 当 num &amp; m != 0</span></span><br><span class="line">            <span class="keyword">else</span> y ^= num;          <span class="comment">// 4. 当 num &amp; m == 0</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> vector&lt;<span class="keyword">int</span>&gt; &#123;x, y&#125;;  <span class="comment">// 5. 返回出现一次的数字</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;。</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>注意使用异或来获得若干对重复数字中的独立数字，并根据异或性质进行分组。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 55 - II. 平衡二叉树</title>
       <link href="/2021/09/22/leetcode43/"/>
       <url>/2021/09/22/leetcode43/</url>
@@ -20,9 +60,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -47,9 +87,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -74,9 +114,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -101,9 +141,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -128,9 +168,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -155,9 +195,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -182,9 +222,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -209,9 +249,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -236,9 +276,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -263,9 +303,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -290,9 +330,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -317,9 +357,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -344,9 +384,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -371,9 +411,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -398,9 +438,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -425,9 +465,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -452,9 +492,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -479,9 +519,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -506,9 +546,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -533,9 +573,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -560,9 +600,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -587,9 +627,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -614,9 +654,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -641,9 +681,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -668,9 +708,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -695,9 +735,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -722,9 +762,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -749,9 +789,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -776,9 +816,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -803,9 +843,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -830,9 +870,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -857,9 +897,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -884,9 +924,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -911,9 +951,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -938,9 +978,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -965,9 +1005,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -992,9 +1032,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1019,9 +1059,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1046,9 +1086,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1073,9 +1113,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1100,9 +1140,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1127,9 +1167,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1154,9 +1194,9 @@
       
         <tags>
             
-            <tag> Leetcode </tag>
-            
             <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
             
         </tags>
       
@@ -1181,9 +1221,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -1208,9 +1248,9 @@
       
         <tags>
             
-            <tag> 学习 </tag>
-            
             <tag> 暑假 </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
