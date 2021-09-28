@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Leetcode题解 25. K 个一组翻转链表</title>
+      <link href="/2021/09/28/leetcode56/"/>
+      <url>/2021/09/28/leetcode56/</url>
+      
+        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">25. K 个一组翻转链表</a></p><p>难度 困难</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>困难在于需要考虑的细节比较多，如何让代码更简洁。时间复杂度为O(n)，空间复杂度O(1)。</p><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>通过构造一个头节点dummy指向head，就可以避免一个特殊情况判断，将上一段的尾部指向下一段的头部。使用头插法来进行局部链表的反转，例如反转序列中的 123：</p><p>prev=0, curr=1: 0 1 2 3 4 -&gt; 0 2 1 3 4 -&gt; 0 3 2 1 4 </p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseKGroup</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode dummy = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>), prev = dummy, curr = head, next;</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        <span class="keyword">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(head != null) &#123;</span><br><span class="line">            length++;</span><br><span class="line">            head = head.next;</span><br><span class="line">        &#125;</span><br><span class="line">        head = dummy.next;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length / k; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; k - <span class="number">1</span>; j++) &#123;</span><br><span class="line">                next = curr.next;</span><br><span class="line">                curr.next = next.next;</span><br><span class="line">                next.next = prev.next;</span><br><span class="line">                prev.next = next;</span><br><span class="line">            &#125;</span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>学习通过构造头节点来简化代码，反转链表可使用头插法，也可使用直接反转。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 题解 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Leetcode题解 剑指 Offer 67. 把字符串转换成整数</title>
       <link href="/2021/09/26/leetcode55/"/>
       <url>/2021/09/26/leetcode55/</url>
