@@ -510,6 +510,10 @@
             
             <tag> Leetcode </tag>
             
+            <tag> 递归 </tag>
+            
+            <tag> 归并排序 </tag>
+            
         </tags>
       
     </entry>
@@ -536,6 +540,10 @@
             <tag> 学习 </tag>
             
             <tag> Leetcode </tag>
+            
+            <tag> 动态规划 </tag>
+            
+            <tag> 数学 </tag>
             
         </tags>
       
@@ -564,6 +572,10 @@
             
             <tag> Leetcode </tag>
             
+            <tag> 字符串 </tag>
+            
+            <tag> 滑动窗口 </tag>
+            
         </tags>
       
     </entry>
@@ -590,6 +602,10 @@
             <tag> 学习 </tag>
             
             <tag> Leetcode </tag>
+            
+            <tag> 动态规划 </tag>
+            
+            <tag> 矩阵 </tag>
             
         </tags>
       
@@ -618,6 +634,8 @@
             
             <tag> Leetcode </tag>
             
+            <tag> 动态规划 </tag>
+            
         </tags>
       
     </entry>
@@ -645,32 +663,7 @@
             
             <tag> Leetcode </tag>
             
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Leetcode题解 剑指 Offer 44. 数字序列中某一位的数字</title>
-      <link href="/2021/09/17/leetcode34/"/>
-      <url>/2021/09/17/leetcode34/</url>
-      
-        <content type="html"><![CDATA[<h2 id="PROBLEM"><a href="#PROBLEM" class="headerlink" title="PROBLEM"></a>PROBLEM</h2><p><a href="https://leetcode-cn.com/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/">剑指 Offer 44. 数字序列中某一位的数字</a></p><p>难度 中等</p><h2 id="MY-ANSWER"><a href="#MY-ANSWER" class="headerlink" title="MY ANSWER"></a>MY ANSWER</h2><p>时间复杂度O(n)，空间复杂度(1)。</p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findNthDigit</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> num = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> k = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> i = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(k &lt; n) &#123;</span><br><span class="line">            k += <span class="number">9</span> * <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>) * i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        i--;</span><br><span class="line">        k -= <span class="number">9</span> * <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>) * i;</span><br><span class="line">        num = <span class="built_in">pow</span>(<span class="number">10</span>, i - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">while</span>(k &lt; n) &#123;</span><br><span class="line">            k += i;</span><br><span class="line">            num++;</span><br><span class="line">        &#125;</span><br><span class="line">        num--;</span><br><span class="line">        k -= i;</span><br><span class="line">        string str = <span class="built_in">to_string</span>(num);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">stoi</span>(str.<span class="built_in">substr</span>(n - k - <span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="BETTER-SOLUTION"><a href="#BETTER-SOLUTION" class="headerlink" title="BETTER SOLUTION"></a>BETTER SOLUTION</h2><p>时间复杂度O(logn)，空间复杂度O(logn)。</p><p><img src="https://pic.leetcode-cn.com/16836ca609f8b4d9af776b35eab4a4c4a86d76f4628a1bc931e56d197617bbb4-Picture2.png" alt="Picture2.png"></p><p><img src="https://pic.leetcode-cn.com/1f2cefd22a9825eb4a52d606a4aee2f93dd659d1b332d3b6a6ed68e5289e8d01-Picture3.png" alt="Picture3.png"></p><p><img src="https://pic.leetcode-cn.com/09af6bd37d9c79d9b904bedef01f0464aee1cd15e18d8a2ea86b70b312a830c3-Picture4.png" alt="Picture4.png"></p><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findNthDigit</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) &#123;<span class="keyword">return</span> <span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> digit = <span class="number">1</span>; <span class="comment">// 数位（个位/十位/百位/...，就是1/2/3/...）</span></span><br><span class="line">        <span class="keyword">long</span> start = <span class="number">1</span>; <span class="comment">// 属于该数位的所有数的起始点数（个位是1，十位是10，百位是100）</span></span><br><span class="line">        <span class="keyword">long</span> index_count = digit * <span class="number">9</span> * start; <span class="comment">// 该数位的数一共的索引个数（不是数字个数）</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(n &gt; index_count ) &#123;</span><br><span class="line">            <span class="comment">// 找出 n 属于那个数位里的索引</span></span><br><span class="line">            n -= index_count; </span><br><span class="line">            ++ digit;</span><br><span class="line">            start *= <span class="number">10</span>;</span><br><span class="line">            index_count = digit * <span class="number">9</span> * start;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 上面的循环结束后：</span></span><br><span class="line">        <span class="comment">// digit 等于原始的 n 所属的数位；start 等于原始的 n 所属数位的数的起始点</span></span><br><span class="line">        <span class="comment">// index_count 等于原始的 n 所属数位的索引总个数（不重要了，下面不用）</span></span><br><span class="line">        <span class="comment">// n 等于在当前数位里的第 n - 1 个索引（索引从 0 开始算起）</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> num = start + (n - <span class="number">1</span>) / digit; <span class="comment">// 算出原始的 n 到底对应哪个数字</span></span><br><span class="line">        <span class="keyword">int</span> remainder = (n - <span class="number">1</span>) % digit; <span class="comment">// 余数就是原始的 n 是这个数字中的第几位</span></span><br><span class="line"></span><br><span class="line">        string s_num = <span class="built_in">to_string</span>(num); <span class="comment">// 将该数字转为 string 类型</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in"><span class="keyword">int</span></span>(s_num[remainder] - <span class="string">&#x27;0&#x27;</span>); <span class="comment">// n 对应着第 remainder 位，再转成 int</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="SUMMARY"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY</h2><p>注意找准边界位置。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 题解 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 学习 </tag>
-            
-            <tag> Leetcode </tag>
+            <tag> 数学 </tag>
             
         </tags>
       
@@ -699,6 +692,8 @@
             
             <tag> Leetcode </tag>
             
+            <tag> 数学 </tag>
+            
         </tags>
       
     </entry>
@@ -726,6 +721,8 @@
             
             <tag> Leetcode </tag>
             
+            <tag> 堆 </tag>
+            
         </tags>
       
     </entry>
@@ -752,6 +749,8 @@
             <tag> 学习 </tag>
             
             <tag> Leetcode </tag>
+            
+            <tag> 快速排序 </tag>
             
         </tags>
       
@@ -873,9 +872,9 @@
             
             <tag> 递归 </tag>
             
-            <tag> 链表 </tag>
-            
             <tag> 树 </tag>
+            
+            <tag> 链表 </tag>
             
         </tags>
       
