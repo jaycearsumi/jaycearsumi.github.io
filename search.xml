@@ -780,6 +780,8 @@
             
             <tag> 学习 </tag>
             
+            <tag> 数学 </tag>
+            
         </tags>
       
     </entry>
@@ -806,6 +808,10 @@
             <tag> Leetcode </tag>
             
             <tag> 学习 </tag>
+            
+            <tag> 回溯 </tag>
+            
+            <tag> 字符串 </tag>
             
         </tags>
       
@@ -834,6 +840,10 @@
             
             <tag> 学习 </tag>
             
+            <tag> 树 </tag>
+            
+            <tag> bFS </tag>
+            
         </tags>
       
     </entry>
@@ -860,6 +870,12 @@
             <tag> Leetcode </tag>
             
             <tag> 学习 </tag>
+            
+            <tag> 递归 </tag>
+            
+            <tag> 链表 </tag>
+            
+            <tag> 树 </tag>
             
         </tags>
       
@@ -888,6 +904,8 @@
             
             <tag> 学习 </tag>
             
+            <tag> 链表 </tag>
+            
         </tags>
       
     </entry>
@@ -914,6 +932,10 @@
             <tag> Leetcode </tag>
             
             <tag> 学习 </tag>
+            
+            <tag> 回溯 </tag>
+            
+            <tag> 树 </tag>
             
         </tags>
       
@@ -1434,11 +1456,11 @@
             
             <tag> 学习 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 快速幂 </tag>
             
             <tag> 动态规划 </tag>
-            
-            <tag> 递归 </tag>
             
         </tags>
       
